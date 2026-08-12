@@ -239,13 +239,23 @@ fetch(SDP_CSV_URL)
     });
 
 function displaySDP(csv) {
-    console.log("SDP CSV received:", csv);
-
     const rows = csv.trim().split("\n");
 
-    console.log("SDP rows:", rows);
-console.log("SDP first row:", rows[0]);
-    
+    const table = document.getElementById("agentTable");
+
+    rows.slice(1).forEach(row => {
+        const columns = row.split(",");
+
+        const tr = document.createElement("tr");
+
+        columns.forEach(column => {
+            const td = document.createElement("td");
+            td.textContent = column.trim();
+            tr.appendChild(td);
+        });
+
+        table.appendChild(tr);
+    });  
 }
     function displayData(data) {
 
