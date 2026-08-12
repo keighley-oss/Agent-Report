@@ -216,7 +216,26 @@
     </div>
 
 </div>
+<div class="table-box">
 
+    <h2>SDP</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>AGENT</th>
+                <th>AMOUNT</th>
+                <th>DATE</th>
+                <th>PURPOSE</th>
+                <th>GROUP</th>
+            </tr>
+        </thead>
+
+        <tbody id="sdpTable">
+        </tbody>
+    </table>
+
+</div>
 <script>
 
 const agents = [];
@@ -241,7 +260,7 @@ fetch(SDP_CSV_URL)
 function displaySDP(csv) {
     const rows = csv.trim().split("\n");
 
-    const table = document.getElementById("agentTable");
+    const table = document.getElementById("sdpTable");
 
     rows.slice(1).forEach(row => {
         const columns = row.split(",");
@@ -255,7 +274,7 @@ function displaySDP(csv) {
         });
 
         table.appendChild(tr);
-    });  
+    });
 }
     function displayData(data) {
 
