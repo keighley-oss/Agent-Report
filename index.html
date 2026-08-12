@@ -255,7 +255,6 @@ fetch(SDP_CSV_URL)
 
 function displaySDP(csv) {
     const rows = csv.trim().split("\n");
-
     const table = document.getElementById("sdpTable");
 
     rows.slice(1).forEach(row => {
@@ -263,11 +262,18 @@ function displaySDP(csv) {
 
         const tr = document.createElement("tr");
 
-        columns.forEach(column => {
-            const td = document.createElement("td");
-            td.textContent = column.trim();
-            tr.appendChild(td);
-        });
+        const agent = document.createElement("td");
+        agent.textContent = columns[0].trim();
+
+        const amount = document.createElement("td");
+        amount.textContent = columns[1].trim();
+
+        const group = document.createElement("td");
+        group.textContent = columns[4].trim();
+
+        tr.appendChild(agent);
+        tr.appendChild(amount);
+        tr.appendChild(group);
 
         table.appendChild(tr);
     });
