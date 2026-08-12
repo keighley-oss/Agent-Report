@@ -268,14 +268,14 @@ function displaySDP(csv) {
     rows.slice(1).forEach(row => {
         const columns = row.match(/(".*?"|[^",]+)(?=\s*,|\s*$)/g) || [];
 
-        if (columns.length < 5) return;
+        if (columns.length < 3) return;
 
         const tr = document.createElement("tr");
 
         tr.innerHTML = `
             <td>${columns[0].replace(/^"|"$/g, "").trim()}</td>
             <td>${columns[1].replace(/^"|"$/g, "").trim()}</td>
-            <td>${columns[4].replace(/^"|"$/g, "").trim()}</td>
+            <td>${columns[3].replace(/^"|"$/g, "").trim()}</td>
         `;
 
         table.appendChild(tr);
