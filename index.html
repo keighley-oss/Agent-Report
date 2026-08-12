@@ -263,24 +263,20 @@ function displaySDP(csv) {
     const rows = csv.trim().split("\n");
     const table = document.getElementById("sdpTable");
 
+    table.innerHTML = "";
+
     rows.slice(1).forEach(row => {
         const columns = row.match(/(".*?"|[^",]+)(?=\s*,|\s*$)/g) || [];
-        console.log("SDP columns:", columns);
+
+        if (columns.length < 5) return;
 
         const tr = document.createElement("tr");
 
-        const agent = document.createElement("td");
-        agent.textContent = columns[0].trim();
-
-        const amount = document.createElement("td");
-        amount.textContent = columns[1].trim();
-
-        const group = document.createElement("td");
-        group.textContent = columns[4].trim();
-
-        tr.appendChild(agent);
-        tr.appendChild(amount);
-        tr.appendChild(group);
+        tr.innerHTML = `
+            <td>${columns[0].replace(/^"|"$/g, "").trim()}</td>
+            <td>${columns[1].replace(/^"|"$/g, "").trim()}</td>
+            <td>${columns[4].replace(/^"|"$/g, "").trim()}</td>
+        `;
 
         table.appendChild(tr);
     });
