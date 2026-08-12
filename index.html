@@ -232,13 +232,16 @@ fetch(SDP_CSV_URL)
     .then(response => response.text())
     .then(csv => {
         console.log("SDP data loaded:", csv);
-        displayData(csv);
+        displaySDP(csv);
     })
     .catch(error => {
         console.error("SDP loading error:", error);
     });
 
-function displayData(data) {
+function displaySDP(csv) {
+    console.log("SDP CSV received:", csv);
+}
+    function displayData(data) {
 
     const table = document.getElementById("agentTable");
 
