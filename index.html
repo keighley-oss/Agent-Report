@@ -1,1 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <title>RSP Agent Report</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
+            color: #222;
+        }
+
+        header {
+            background: #1f4e78;
+            color: white;
+            padding: 25px;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 30px;
+        }
+
+        header p {
+            margin: 8px 0 0;
+            opacity: 0.9;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .card h3 {
+            margin: 0;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .card .number {
+            font-size: 28px;
+            font-weight: bold;
+            margin-top: 8px;
+            color: #1f4e78;
+        }
+
+        .filters {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .filters input,
+        .filters select {
+            padding: 12px;
+            margin-right: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .table-box {
+            background: white;
+            border-radius: 10px;
+            overflow-x: auto;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: #1f4e78;
+            color: white;
+            padding: 14px;
+            text-align: left;
+        }
+
+        td {
+            padding: 13px;
+            border-bottom: 1px solid #eee;
+        }
+
+        tr:hover {
+            background: #f5f8fb;
+        }
+
+        .status-active {
+            color: green;
+            font-weight: bold;
+        }
+
+        .status-inactive {
+            color: red;
+            font-weight: bold;
+        }
+
+        @media (max-width: 800px) {
+            .cards {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 500px) {
+            .cards {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>RSP Agent Report</h1>
+    <p>Received • Send • Pay Agent Dashboard</p>
+</header>
+
+<div class="container">
+
+    <div class="cards">
+        <div class="card">
+            <h3>Total Agents</h3>
+            <div class="number" id="totalAgents">0</div>
+        </div>
+
+        <div class="card">
+            <h3>Total Received</h3>
+            <div class="number" id="totalReceived">0</div>
+        </div>
+
+        <div class="card">
+            <h3>Total Send</h3>
+            <div class="number" id="totalSend">0</div>
+        </div>
+
+        <div class="card">
+            <h3>Total Pay</h3>
+            <div class="number" id="totalPay">0</div>
+        </div>
+    </div>
+
+    <div class="filters">
+
+        <input
+            type="text"
+            id="search"
+            placeholder="Search agent..."
+            onkeyup="filterData()"
+        >
+
+        <select id="teamLeader" onchange="filterData()">
+            <option value="">All Team Leaders</option>
+            <option value="SVEN">SVEN</option>
+            <option value="JOHN">JOHN</option>
+            <option value="DAVID">DAVID</option>
+        </select>
+
+        <select id="status" onchange="filterData()">
+            <option value="">All Status</option>
+            <option value="Active">Active</option>
+            <option value="Inactive">Inactive</option>
+        </select>
+
+    </div>
+
+    <div class="table-box">
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Agent</th>
+                    <th>Team Leader</th>
+                    <th>Shop</th>
+                    <th>Received</th>
+                    <th>Send</th>
+                    <th>Pay</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+
+            <tbody id="agentTable">
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+<script>
+
+const agents = [
+
+    {
+        name: "John Perera",
+        leader: "SVEN",
+        shop: "Colombo 01",
+        received: 120,
+        send: 85,
+        pay: 75,
+        status: "Active"
+    },
+
+    {
+        name: "Amal Silva",
+        leader: "SVEN",
+        shop: "Colombo 02",
+        received: 150,
+        send: 110,
+        pay: 95,
+        status: "Active"
+    },
+
+    {
+        name: "Nimal Fernando",
+        leader: "JOHN",
+        shop: "Kandy 01",
+        received: 90,
+        send: 70,
+        pay: 65,
+        status: "Active"
+    },
+
+    {
+        name: "Kamal Perera",
+        leader: "DAVID",
+        shop: "Galle 01",
+        received: 60,
+        send: 45,
+        pay: 40,
+        status: "Inactive"
+    }
+
+];
+
+function displayData(data) {
+
+    const table = document.getElementById("agentTable");
+
+    table.innerHTML = "";
+
+    data.forEach(agent => {
+
+        const row = document.createElement("tr");
+
+        row.innerHTML = `
+            <td>${agent.name}</td>
+            <td>${agent.leader}</td>
+            <td>${agent.shop}</td>
+            <td>${agent.received}</td>
+            <td>${agent.send}</td>
+            <td>${agent.pay}</td>
+            <td class="${agent.status === 'Active'
+                ? 'status-active'
+                : 'status-inactive'}">
+                ${agent.status}
+            </td>
+        `;
+
+        table.appendChild(row);
+
+    });
+
+    updateTotals(data);
+}
+
+
+function updateTotals(data) {
+
+    document.getElementById("totalAgents").textContent =
+        data.length;
+
+    document.getElementById("totalReceived").textContent =
+        data.reduce((sum, agent) => sum + agent.received, 0);
+
+    document.getElementById("totalSend").textContent =
+        data.reduce((sum, agent) => sum + agent.send, 0);
+
+    document.getElementById("totalPay").textContent =
+        data.reduce((sum, agent) => sum + agent.pay, 0);
+}
+
+
+function filterData() {
+
+    const search =
+        document.getElementById("search").value.toLowerCase();
+
+    const leader =
+        document.getElementById("teamLeader").value;
+
+    const status =
+        document.getElementById("status").value;
+
+    const filtered = agents.filter(agent => {
+
+        return (
+
+            agent.name.toLowerCase().includes(search)
+
+            &&
+
+            (leader === "" || agent.leader === leader)
+
+            &&
+
+            (status === "" || agent.status === status)
+
+        );
+
+    });
+
+    displayData(filtered);
+}
+
+
+displayData(agents);
+
+</script>
+
+</body>
+</html>
