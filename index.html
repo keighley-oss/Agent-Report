@@ -293,7 +293,7 @@ totalAmount += numericAmount;
 const group = columns[2] ? columns[2].replace(/^"|"$/g, "").trim() : "";
 
         if (!groupTotals[group]) {
-    groupTotals[group] = 0;
+    groupTotals[group] = numericAmount;
 }
 
 groupTotals[group] += numericAmount;
@@ -331,6 +331,8 @@ Object.entries(groupTotals).forEach(([group, amount]) => {
         </div>
     `;
 });
+    }
+    
     function displayData(data) {
 
     const table = document.getElementById("agentTable");
