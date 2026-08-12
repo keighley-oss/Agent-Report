@@ -232,6 +232,7 @@ fetch(SDP_CSV_URL)
     .then(response => response.text())
     .then(csv => {
         console.log("SDP data loaded:", csv);
+        displayData(csv);
     })
     .catch(error => {
         console.error("SDP loading error:", error);
