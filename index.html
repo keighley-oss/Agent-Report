@@ -264,7 +264,7 @@ function displaySDP(csv) {
     const table = document.getElementById("sdpTable");
 
     rows.slice(1).forEach(row => {
-        const columns = row.split(",");
+        const columns = row.match(/(".*?"|[^",]+)(?=\s*,|\s*$)/g) || [];
 
         const tr = document.createElement("tr");
 
