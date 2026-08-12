@@ -293,7 +293,7 @@ totalAmount += numericAmount;
 const group = columns[2] ? columns[2].replace(/^"|"$/g, "").trim() : "";
 
         if (!groupTotals[group]) {
-    groupTotals[group] = numericAmount;
+    groupTotals[group] = 0;
 }
 
 groupTotals[group] += numericAmount;
