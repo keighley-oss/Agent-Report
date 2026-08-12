@@ -240,6 +240,10 @@ fetch(SDP_CSV_URL)
 
 function displaySDP(csv) {
     console.log("SDP CSV received:", csv);
+
+    const rows = csv.trim().split("\n");
+
+    console.log("SDP rows:", rows);
 }
     function displayData(data) {
 
