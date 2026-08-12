@@ -265,6 +265,7 @@ function displaySDP(csv) {
 
     rows.slice(1).forEach(row => {
         const columns = row.match(/(".*?"|[^",]+)(?=\s*,|\s*$)/g) || [];
+        console.log("SDP columns:", columns);
 
         const tr = document.createElement("tr");
 
