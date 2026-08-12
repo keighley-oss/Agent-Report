@@ -255,7 +255,7 @@
 
 const agents = [];
 let sdpData = [];
-
+let sdpCSV = "";
 
 const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSXS0TJLpUj6cxaFcqM9HS1xPPdLDhOHz2XJ4H6S_S4VeouiBvfF7q12Pxb5zuOqRP8AvYuN7syAEOt/pubhtml";
 
@@ -274,6 +274,7 @@ fetch(SDP_CSV_URL)
     });
 
 function displaySDP(csv) {
+    sdpCSV = csv;
     const rows = csv.trim().split("\n");
     sdpData = rows.slice(1);
     const table = document.getElementById("sdpTable");
@@ -422,8 +423,21 @@ function filterData() {
     displayData(filtered);
 }
 
+    function filterSDP() {
+    const search = document.getElementById("sdpSearch").value.toLowerCase().trim();
+
+    const rows = sdpCSV.trim().split("\n");
+    const header = rows[0];
+
+    const filteredRows = rows.slice(1).filter(row =>
+        row.toLowerCase().includes(search)
+    );
+
+    displaySDP([header, ...filteredRows].join("\n"));
+}
 
 displayData(agents);
+    
 
 </script>
 
