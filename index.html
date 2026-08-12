@@ -268,14 +268,21 @@ function displaySDP(csv) {
     rows.slice(1).forEach(row => {
         const columns = row.match(/(".*?"|[^",]+)(?=\s*,|\s*$)/g) || [];
 
-        if (columns.length < 3) return;
+        if (columns.length < 3) {
+            console.log("Skipping SDP row:", row);
+            return;
+        }
 
         const tr = document.createElement("tr");
 
+        const agent = columns[0] ? columns[0].replace(/^"|"$/g, "").trim() : "";
+        const amount = columns[1] ? columns[1].replace(/^"|"$/g, "").trim() : "";
+        const group = columns[2] ? columns[2].replace(/^"|"$/g, "").trim() : "";
+
         tr.innerHTML = `
-            <td>${columns[0].replace(/^"|"$/g, "").trim()}</td>
-            <td>${columns[1].replace(/^"|"$/g, "").trim()}</td>
-            <td>${columns[3].replace(/^"|"$/g, "").trim()}</td>
+            <td>${agent}</td>
+            <td>${amount}</td>
+            <td>${group}</td>
         `;
 
         table.appendChild(tr);
