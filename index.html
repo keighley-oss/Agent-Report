@@ -298,9 +298,12 @@ tr.innerHTML = `
     console.log("SDP TOTAL:", totalAmount);
     console.log("SDP BOX:", document.getElementById("sdpTotal"));
 
-    document.getElementById("sdpTotal").textContent =
-    "Total SDP Amount: ৳" + totalAmount.toLocaleString();
-}
+document.getElementById("sdpTotal").textContent =
+    "Total SDP Amount: ৳" +
+    totalAmount.toLocaleString("en-US", {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+    });
     function displayData(data) {
 
     const table = document.getElementById("agentTable");
