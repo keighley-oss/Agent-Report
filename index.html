@@ -223,6 +223,13 @@
 <div class="table-box">
 
     <h2>SDP</h2>
+
+    <input
+    type="text"
+    id="sdpSearch"
+    placeholder="Search SDP Agent..."
+    oninput="filterSDP()"
+>
     <div id="sdpTotal">
     Total SDP Amount: 0
 </div>
@@ -247,6 +254,7 @@
 <script>
 
 const agents = [];
+let sdpData = [];
 
 
 const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSXS0TJLpUj6cxaFcqM9HS1xPPdLDhOHz2XJ4H6S_S4VeouiBvfF7q12Pxb5zuOqRP8AvYuN7syAEOt/pubhtml";
@@ -267,6 +275,7 @@ fetch(SDP_CSV_URL)
 
 function displaySDP(csv) {
     const rows = csv.trim().split("\n");
+    sdpData = rows.slice(1);
     const table = document.getElementById("sdpTable");
 
     table.innerHTML = "";
