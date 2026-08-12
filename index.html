@@ -227,6 +227,15 @@ const SDP_GID = "121349802";
 
 const SDP_CSV_URL = SHEET_URL.replace("/pubhtml", "/pub?gid=" + SDP_GID + "&output=csv");
 
+fetch(SDP_CSV_URL)
+    .then(response => response.text())
+    .then(csv => {
+        console.log("SDP data loaded:", csv);
+    })
+    .catch(error => {
+        console.error("SDP loading error:", error);
+    });
+
 ];
 
 function displayData(data) {
