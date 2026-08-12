@@ -226,6 +226,9 @@
     <div id="sdpTotal">
     Total SDP Amount: 0
 </div>
+    
+    <div id="sdpGroupSummary">
+</div>
 
     <table>
         <thead>
@@ -268,7 +271,8 @@ function displaySDP(csv) {
 
     table.innerHTML = "";
     let totalAmount = 0;
-
+    const groupTotals = {};
+    
     rows.slice(1).forEach(row => {
         const columns = row.match(/(".*?"|[^",]+)(?=\s*,|\s*$)/g) || [];
 
@@ -276,6 +280,7 @@ function displaySDP(csv) {
             console.log("Skipping SDP row:", row);
             return;
         }
+        
 
 const tr = document.createElement("tr");
 
@@ -286,6 +291,12 @@ const numericAmount = parseFloat(amount.replace(/,/g, "")) || 0;
 totalAmount += numericAmount;
 
 const group = columns[2] ? columns[2].replace(/^"|"$/g, "").trim() : "";
+
+        if (!groupTotals[group]) {
+    groupTotals[group] = 0;
+}
+
+groupTotals[group] += numericAmount;
 
 tr.innerHTML = `
     <td>${agent}</td>
@@ -304,6 +315,22 @@ document.getElementById("sdpTotal").textContent =
         minimumFractionDigits: 2,
         maximumFractionDigits: 2
     });
+
+    const summary = document.getElementById("sdpGroupSummary");
+
+summary.innerHTML = "<h3>Amount by Group</h3>";
+
+Object.entries(groupTotals).forEach(([group, amount]) => {
+    summary.innerHTML += `
+        <div>
+            <strong>${group}</strong>:
+            ৳${amount.toLocaleString("en-US", {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            })}
+        </div>
+    `;
+});
     function displayData(data) {
 
     const table = document.getElementById("agentTable");
